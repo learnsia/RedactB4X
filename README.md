@@ -1,6 +1,6 @@
 # RedactB4X
 
-A web-based document management system with PII redaction and compliance analysis. Upload documents, detect and redact sensitive information, and run AI-powered compliance checks against configurable frameworks.
+A web-based document management system with PII redaction and pattern-based detection. Upload documents, detect and redact sensitive information, and build custom detection rules.
 
 I borrowed from: https://github.com/noxone/regex-generator to create the automatic Regex buiilder.
 
@@ -9,7 +9,7 @@ I borrowed from: https://github.com/noxone/regex-generator to create the automat
 - **Document Management** - Upload, organize, download, and delete documents with folder support
 - **PII Redaction** - Automatically detect and redact emails, phone numbers, SSNs, credit cards, IP addresses, and more
 - **Custom Patterns** - Build, test, and save your own PII detection patterns
-- **Compliance Analysis** - Run LLM-powered compliance checks against configurable frameworks (HIPAA, GDPR, etc.)
+- **Compliance Frameworks** - Configure compliance frameworks (HIPAA, GDPR, etc.) for context
 - **Batch Processing** - Process multiple documents at once with progress tracking
 - **Document Workflow** - Process, approve, and reject documents through a review pipeline
 - **Library Folders** - Organize documents into a browsable folder structure
@@ -64,7 +64,6 @@ All data is stored under `data/` in the working directory:
 ```
 data/
 ├── config.json              App configuration
-├── llm.json                 LLM endpoint settings
 ├── converter.json           Document converter settings
 ├── documents/               Uploaded documents
 ├── reports/                 Generated compliance reports

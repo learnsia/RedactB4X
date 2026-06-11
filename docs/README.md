@@ -4,7 +4,7 @@ Find and redact personal information in documents before you share them.
 
 ![RedactB4X Dashboard](images/02-dashboard.png)
 
-Before sending your documents to AI, you should redact names, email addresses, phone numbers, social security numbers, medical record IDs.
+Before sending your documents to AI, email, or sharing documents, you should or may be legally required to redact names, email addresses, phone numbers, social security numbers, medical record IDs.
 
 RedactB4X scans your documents for personally identifiable information, highlights everything it finds, and lets you redact it with a click. You decide what gets shared and what gets covered up.
 
