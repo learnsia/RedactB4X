@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RedactB4X — Compliance Dashboard</title>
+<link rel="stylesheet" href="css/variables.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- ─── SIDEBAR ─── -->
+<aside class="sidebar" id="app-sidebar" role="navigation" aria-label="Main navigation">
+  <div class="sidebar-brand">
+    <h1><span class="brand-icon">AI</span> RedactB4X</h1>
+    <div class="tagline" id="sidebar-tagline">Compliance Dashboard</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title" id="sidebar-main-label">Main</div>
+    <div class="nav-item active" data-nav="dashboard" onclick="navTo('dashboard')" role="link" tabindex="0" aria-current="page" aria-describedby="sidebar-main-label" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();navTo('dashboard')}"><span class="icon" aria-hidden="true">◈</span> Dashboard</div>
+  </div>
+  <div class="sidebar-section">
+    <div class="sidebar-section-title" id="sidebar-tools-label">Tools</div>
+    <div class="nav-item" onclick="openPatternLibraryModalSidebar()" role="link" tabindex="0" aria-describedby="sidebar-tools-label" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPatternLibraryModalSidebar()}"><span class="icon" aria-hidden="true">◎</span> Pattern library</div>
+  </div>
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="avatar" id="sidebar-avatar">RB</div>
+      <div>
+        <div class="user-name" id="sidebar-company">RedactB4X</div>
+        <div class="user-role" id="sidebar-role">Admin</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── HEADER ─── -->
+<header id="app-header" class="app-header hidden" role="banner">
+  <div class="top-bar">
+    <div style="display:flex;align-items:center;gap:0.75rem">
+      <button class="hamburger-btn" id="hamburger-btn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="app-sidebar" onclick="toggleSidebar()">
+        <span aria-hidden="true">&#9776;</span>
+      </button>
+      <div>
+        <h2 class="page-title" id="main-page-title">Dashboard Overview</h2>
+        <div id="header-subtitle" style="font-size:0.78rem;color:var(--text-muted);margin-top:0.15rem"></div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <span id="header-company-name" style="font-size:0.85rem;font-weight:600"></span>
+
+      <button class="btn btn-ghost btn-sm" id="btn-back-dashboard" style="display:none" onclick="showDmsDashboard()" aria-label="Return to dashboard">&#8592; Dashboard</button>
+      <button class="btn btn-ghost btn-sm" id="btn-switch-demo" style="display:none">Switch Demo</button>
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode theme">&#9789; Theme</button>
+    </div>
+  </div>
+</header>
+
+<!-- ─── MAIN CONTENT ─── -->
+<main class="main-content" id="main-content" role="main" aria-label="Main content">
+
+  <!-- LANDING PAGE -->
+<section id="landing-page">
+  <div class="landing">
+    <div class="landing-title">RedactB4X</div>
+    <div class="landing-subtitle">
+      Document Management System for compliance analysis, PII redaction, and policy remediation.
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark mode theme">&#9789; Toggle Theme</button>
+    </div>
+  </div>
+</section>
+
+  <!-- DMS DASHBOARD -->
+<section id="dms-dashboard" class="hidden" aria-label="Document Management System dashboard">
+
+    <!-- DOCUMENT MANAGEMENT -->
+    <div class="card mb-2" style="border-color:var(--primary);border-width:2px">
+      <div class="card-header">
+        <span class="card-title" id="dms-doc-mgmt-title">&#128196; Document Management</span>
+        <span id="dms-doc-count" class="badge" aria-live="polite">0 documents</span>
+      </div>
+
+      <!-- Upload Area -->
+      <div class="upload-grid" style="margin-bottom:1.5rem">
+        <div>
+          <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem">Upload Documents</div>
+          <div id="dms-drop-zone" role="button" tabindex="0" aria-label="Upload documents area. Click or drag files here." style="border:2px dashed var(--border);border-radius:var(--radius-sm);padding:2rem;text-align:center;cursor:pointer;transition:all 0.2s" onclick="document.getElementById('dms-file-input').click()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();document.getElementById('dms-file-input').click()}">
+            <div style="font-size:2rem;margin-bottom:0.5rem" aria-hidden="true">&#128228;</div>
+            <div style="font-size:0.9rem;color:var(--text-secondary)">Click or drag files here</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.35rem">Text: .txt .md .csv .json &mdash; Office: .pdf .docx .xlsx .xls .pptx .html .epub .ipynb .xml .zip (MarkItDown)</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);margin-top:0.3rem">.txt, .md, .csv, .json</div>
+            <input type="file" id="dms-file-input" accept=".txt,.md,.csv,.json,.pdf,.docx,.xlsx,.pptx,.html,.htm,.epub,.ipynb" multiple style="display:none" onchange="dmsUploadFiles(this.files)" aria-label="Select files to upload">
+          </div>
+          <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
+            <label for="dms-upload-category" class="sr-only">Document category</label>
+            <input id="dms-upload-category" type="text" placeholder="Category (e.g. HR, Finance)" style="flex:1;padding:0.4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:0.8rem" aria-label="Document category">
+            <button class="btn btn-outline btn-sm" onclick="dmsOpenScanModal()" aria-label="Scan a server directory for documents">Scan Directory</button>
+          </div>
+          <input type="file" id="dms-scan-folder-input" webkitdirectory directory multiple accept=".txt,.md,.csv,.json" style="display:none" onchange="dmsImportSelectedFolder(this.files)" aria-label="Select folder to scan">
+          <div id="dms-upload-status" style="font-size:0.8rem;color:var(--text-muted);margin-top:0.3rem" aria-live="polite"></div>
+        </div>
+
+        <!-- Document List -->
+        <div>
+          <div style="font-weight:600;font-size:0.85rem;margin-bottom:0.5rem">Document Library</div>
+          <div style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;margin-bottom:0.5rem">
+            <label for="dms-lib-search" class="sr-only">Search documents</label>
+            <input type="text" id="dms-lib-search" placeholder="Search title, folder, id..." style="flex:1;min-width:140px;padding:0.4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:0.8rem" oninput="dmsLibScheduleSearch()" aria-label="Search documents by title, folder, or ID">
+            <label for="dms-lib-folder" class="sr-only">Filter by folder</label>
+            <select id="dms-lib-folder" onchange="dmsLibFolderChanged()" style="padding:0.4rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-size:0.8rem;min-width:160px;max-width:220px" aria-label="Filter documents by folder">
+              <option value="">All folders</option>
+            </select>
+            <button type="button" class="btn btn-outline btn-sm" onclick="dmsOpenNewFolderModal()" aria-label="Create a new library folder">New folder</button>
+          </div>
+          <div id="dms-selection-toolbar" style="display:none;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;margin-bottom:0.5rem;background:var(--primary-bg, #eef2ff);border:1px solid var(--primary, #4f46e5);border-radius:var(--radius-sm);font-size:0.8rem" role="toolbar" aria-label="Selection actions">
+            <span id="dms-sel-count" style="font-weight:600;color:var(--primary, #4f46e5)" aria-live="polite"></span>
+            <button type="button" class="btn btn-outline btn-sm" onclick="dmsDownloadSelected('markdown')" aria-label="Download selected documents as markdown">&#128196; Download Markdown</button>
+            <button type="button" class="btn btn-outline btn-sm" onclick="dmsDownloadSelected('redacted')" aria-label="Download selected documents with PII redacted">&#128274; Download Redacted</button>
+            <button type="button" class="btn btn-ghost btn-sm" onclick="dmsClearSelection()" aria-label="Clear document selection">Clear</button>
+          </div>
+          <div id="dms-doc-list" class="dms-doc-list dms-doc-list-scroller" role="region" aria-label="Document list" aria-live="polite">
+            <div style="text-align:center;color:var(--text-muted);padding:2rem;font-size:0.85rem">Loading...</div>
+          </div>
+          <div id="dms-lib-pagination" style="display:flex;align-items:center;justify-content:space-between;gap:0.75rem;margin-top:0.5rem;font-size:0.8rem;color:var(--text-muted);flex-wrap:wrap" role="navigation" aria-label="Document list pagination">
+            <span id="dms-lib-page-info" aria-live="polite"></span>
+            <div style="display:flex;gap:0.35rem">
+              <button type="button" class="btn btn-ghost btn-sm" id="dms-lib-prev" onclick="dmsLibPageDelta(-1)" aria-label="Previous page">Prev</button>
+              <button type="button" class="btn btn-ghost btn-sm" id="dms-lib-next" onclick="dmsLibPageDelta(1)" aria-label="Next page">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Batch Actions -->
+      <div id="dms-batch-actions" style="display:none;border-top:1px solid var(--border);padding-top:1rem">
+        <div style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-primary btn-sm" onclick="dmsProcessAll()" aria-label="Process all documents">&#9881; Process All Documents</button>
+          <span id="dms-batch-status" style="font-size:0.8rem;color:var(--text-muted)" aria-live="polite"></span>
+        </div>
+      </div>
+
+      <!-- Paste & Redact -->
+      <div class="card" style="margin-top:1.5rem">
+        <div class="card-header">
+          <span class="card-title" id="paste-redact-title">&#128203; Paste &amp; Redact</span>
+          <span class="badge badge-partial">Ephemeral</span>
+        </div>
+        <div class="paste-grid">
+          <div>
+            <label for="paste-text-input" class="sr-only">Document text to redact</label>
+            <textarea id="paste-text-input" rows="8" placeholder="Paste your document text here..." style="width:100%;padding:0.75rem;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-family:var(--mono);font-size:0.85rem;resize:vertical" aria-describedby="paste-redact-title" aria-label="Paste document text here for redaction"></textarea>
+            <div style="display:flex;gap:0.5rem;margin-top:0.5rem;align-items:center">
+              <button class="btn btn-primary" onclick="pasteRedactText()" aria-label="Redact PII from pasted text">&#128274; Redact Now</button>
+              <span id="paste-status" style="font-size:0.8rem;color:var(--text-muted)" aria-live="polite"></span>
+            </div>
+          </div>
+          <div style="font-size:0.78rem;color:var(--text-muted);max-width:200px;padding-top:0.5rem">
+            <strong>No files uploaded.</strong> Text is redacted in-memory and never stored. Click "Copy Redacted" in the results to grab the output.
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</section>
+
+  </div>
+</div>
+
+<!-- Scan directory (DMS) -->
+<div id="dms-scan-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)dmsCloseScanModal()" role="dialog" aria-modal="true" aria-labelledby="dms-scan-modal-title">
+  <div class="modal">
+    <button class="modal-close" type="button" onclick="dmsCloseScanModal()" aria-label="Close scan directory dialog">&times;</button>
+    <div class="modal-title" id="dms-scan-modal-title">Scan directory</div>
+    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5;margin-bottom:0.75rem">Scan a folder on the server for <code>.txt</code>, <code>.md</code>, <code>.csv</code>, and <code>.json</code> files. Nested folders are preserved. Files already in the library (same relative path) are skipped.</p>
+    <label for="dms-scan-dir-input" style="font-size:0.8rem;font-weight:600;display:block;margin-bottom:0.35rem">Server directory path</label>
+    <input id="dms-scan-dir-input" class="input" placeholder="/home/user/documents" style="width:100%" aria-required="true" />
+    <div id="dms-scan-error" style="color:var(--danger);font-size:0.8rem;margin-top:0.35rem;display:none" role="alert"></div>
+    <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end;flex-wrap:wrap">
+      <button type="button" class="btn btn-ghost" onclick="dmsCloseScanModal()">Cancel</button>
+      <button type="button" class="btn btn-outline" onclick="dmsChooseScanFolder()">Choose folder on this computer</button>
+      <button type="button" class="btn btn-primary" onclick="dmsSubmitScanDir()">Scan</button>
+    </div>
+  </div>
+</div>
+
+<!-- New library folder (DMS) -->
+<div id="dms-folder-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)dmsCloseFolderModal()" role="dialog" aria-modal="true" aria-labelledby="dms-folder-modal-title">
+  <div class="modal">
+    <button class="modal-close" type="button" onclick="dmsCloseFolderModal()" aria-label="Close new folder dialog">&times;</button>
+    <div class="modal-title" id="dms-folder-modal-title">New folder</div>
+    <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.5">Paths use forward slashes for nesting (e.g. <code>regulatory/PCI</code>). Empty segments and <code>..</code> are not allowed.</p>
+    <label for="dms-new-folder-input" class="sr-only">New folder path</label>
+    <input id="dms-new-folder-input" class="input" placeholder="e.g. regulatory/pci" style="width:100%;margin-top:0.5rem" aria-required="true" />
+    <div id="dms-new-folder-error" style="color:var(--danger);font-size:0.8rem;margin-top:0.35rem;display:none" role="alert"></div>
+    <div style="display:flex;gap:0.5rem;margin-top:1rem;justify-content:flex-end">
+      <button type="button" class="btn btn-ghost" onclick="dmsCloseFolderModal()">Cancel</button>
+      <button type="button" class="btn btn-primary" onclick="dmsSubmitNewFolder()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- PII REDACTION — simple "missed something" modal -->
+<div id="pii-modal" class="modal-overlay" style="display:none" onclick="if(event.target===this)closeModal()" role="dialog" aria-modal="true" aria-labelledby="pii-modal-title">
+  <div class="modal pattern-lab-modal">
+    <button class="modal-close" type="button" onclick="closeModal()" aria-label="Close redaction dialog">&times;</button>
+    <div class="modal-title" id="pii-modal-title">&#128270; Redact something we missed</div>
+    <p class="pattern-lab-intro">
+      <strong>Step 1:</strong> Highlight the sensitive text in the document below.
+      <strong>Step 2:</strong> Choose whether to redact only that text or every similar value.
+    </p>
+
+    <label class="pattern-lab-section-title" for="pattern-lab-sample">Document text</label>
+    <textarea id="pattern-lab-sample" class="pattern-lab-sample" readonly
+      onselect="patternLabOnTextSelect()" onkeyup="patternLabOnTextSelect()" onclick="patternLabOnTextSelect()" aria-label="Document text for selecting PII to redact"></textarea>
+
+    <p id="pattern-lab-idle-hint" class="pattern-lab-idle-hint">↑ Select text in the box above</p>
+
+    <div id="pattern-lab-selection-panel" class="pattern-lab-selection-panel" style="display:none">
+      <div class="pattern-lab-selected-box">
+        <span class="pattern-lab-selected-label">You highlighted</span>
+        <code id="pattern-lab-selected-text" class="pattern-lab-selected-text"></code>
+      </div>
+      <p id="pattern-lab-preview-summary" class="pattern-lab-preview-summary"></p>
+      <div class="pattern-lab-primary-actions">
+        <button type="button" id="pattern-lab-btn-similar" class="btn btn-primary"
+          onclick="patternLabRedactSimilar()">Save to library &amp; apply similar</button>
+        <button type="button" class="btn btn-ghost" onclick="patternLabRedactExact()">This document only (exact)</button>
+      </div>
+    </div>
+
+    <details class="pattern-lab-advanced">
+      <summary>Advanced (optional)</summary>
+      <p class="pattern-lab-muted" style="margin:0.5rem 0">Quick-add demo names, type exact text, or paste a technical regex.</p>
+      <div class="pattern-lab-section-title">Suggested names</div>
+      <div id="missed-names-list" class="pattern-lab-missed-names"></div>
+      <div class="pattern-lab-section-title">Type exact text</div>
+      <div class="pattern-lab-quick-row">
+        <input id="custom-pattern-input" class="input" placeholder="e.g. Sarah Mitchell" aria-label="Exact text to redact" />
+        <button type="button" class="btn btn-ghost btn-sm" onclick="addCustomPattern()">Add</button>
+      </div>
+      <div class="pattern-lab-section-title" style="margin-top:0.75rem">Technical regex (Go)</div>
+      <div class="pattern-lab-quick-row">
+        <input id="pattern-lab-expression" class="input pattern-lab-expression" placeholder="Auto-filled when similar match is available" aria-label="Regular expression pattern" />
+        <button type="button" class="btn btn-ghost btn-sm" onclick="patternLabSaveAdvancedRegex()">Save regex</button>
+      </div>
+    </details>
+
+    <div class="pattern-lab-divider"></div>
+
+    <details class="pattern-lab-advanced">
+      <summary>Save rule to library</summary>
+      <p class="pattern-lab-muted" style="margin:0.5rem 0">Save a rule for reuse on future documents.</p>
+      <div class="pattern-lab-quick-row">
+        <input id="pii-modal-lib-label" class="input" placeholder="Rule name (e.g. SSN pattern)" style="flex:1" aria-label="Library rule name" />
+        <select id="pii-modal-lib-kind" class="input" style="width:auto" onchange="piiModalLibPreview()" aria-label="Library rule type">
+          <option value="regex">regex</option>
+          <option value="literal">literal</option>
+        </select>
+      </div>
+      <textarea id="pii-modal-lib-body" class="input pattern-library-new-body" rows="2" placeholder="Regex or exact text — pre-filled when you select or generate a pattern above" oninput="piiModalLibPreview()" aria-label="Library rule expression"></textarea>
+      <div class="pattern-lab-quick-row" style="margin-top:0.5rem">
+        <div id="pii-modal-lib-preview" class="pattern-lab-muted" style="flex:1"></div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="piiModalLibPreview()">Test match</button>
+      </div>
+      <button type="button" class="btn btn-primary btn-sm" style="margin-top:0.5rem" onclick="piiModalLibSave()" aria-label="Save rule to pattern library">Save to library</button>
+    </details>
+
+    <div id="pattern-result"></div>
+  </div>
+</div>
+
+<!-- PATTERN PICKER (before processing a document) -->
+<div id="pattern-picker-modal" class="modal-overlay" style="display:none;z-index:550" onclick="if(event.target===this)closePatternPickerModal()" role="dialog" aria-modal="true" aria-labelledby="pattern-picker-title-heading">
+  <div class="modal pattern-lab-modal" style="max-width:560px">
+    <button type="button" class="modal-close" onclick="closePatternPickerModal()" aria-label="Close pattern picker">&times;</button>
+    <div class="modal-title" id="pattern-picker-title-heading">Custom rules for this document</div>
+    <p class="pattern-lab-intro" style="margin-bottom:0.75rem">
+      Our automatic detection is always on. You can also choose <strong>saved rules</strong> from your library to apply here.
+    </p>
+    <div id="pattern-picker-title" class="pattern-picker-doc-title"></div>
+    <div id="pattern-picker-list" class="pattern-picker-list" role="listbox" aria-label="Available pattern rules"></div>
+    <div class="pattern-picker-toolbar" style="margin-top:0.75rem">
+      <button type="button" class="btn btn-ghost btn-sm" onclick="openPatternLibraryModal()" aria-label="Open pattern library manager">Manage library</button>
+    </div>
+    <div class="pattern-lab-primary-actions" style="margin-top:1rem">
+      <button type="button" id="pattern-picker-run" class="btn btn-primary" onclick="patternPickerRunProcess()" aria-label="Process document with selected patterns">Process document</button>
+      <button type="button" class="btn btn-ghost" onclick="closePatternPickerModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- PATTERN LIBRARY MANAGER (sub-modal overlaying picker) -->
+<div id="pattern-library-modal" class="modal-overlay" style="display:none;z-index:560" onclick="if(event.target===this)closePatternLibraryModal()" role="dialog" aria-modal="true" aria-labelledby="pattern-library-modal-title">
+  <div class="modal pattern-lab-modal" style="max-width:520px">
+    <button type="button" class="modal-close" onclick="closePatternLibraryModal()" aria-label="Close pattern library">&times;</button>
+    <div class="modal-title" id="pattern-library-modal-title">Pattern library</div>
+    <p class="pattern-lab-intro">Saved rules are reused whenever you process a document. Select which ones to apply in the process dialog.</p>
+    <div id="pattern-library-list" class="pattern-library-list" role="list" aria-label="Saved pattern rules"></div>
+    <details class="pattern-lab-advanced" open>
+      <summary>Add a new pattern</summary>
+      <div class="pattern-lab-quick-row" style="margin-top:0.5rem">
+        <input id="pattern-library-new-label" class="input" placeholder="Label (e.g. Person names)" style="flex:1" aria-label="Pattern rule label" />
+        <select id="pattern-library-new-kind" class="input" style="width:auto" onchange="patternLibraryPreview()" aria-label="Pattern rule type">
+          <option value="regex">regex</option>
+          <option value="literal">literal</option>
+        </select>
+      </div>
+      <textarea id="pattern-library-new-body" class="input pattern-library-new-body" rows="3" placeholder="Regex or exact text" oninput="patternLibraryPreview()" aria-label="Pattern rule expression"></textarea>
+      <div class="pattern-lab-quick-row" style="margin-top:0.5rem">
+        <div id="pattern-library-preview-result" class="pattern-lab-muted" style="flex:1"></div>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="patternLibraryPreview()">Test match</button>
+      </div>
+      <button type="button" class="btn btn-primary btn-sm" style="margin-top:0.5rem" onclick="patternLibrarySubmitNew()" aria-label="Save new pattern to library">Save to library</button>
+    </details>
+    <div class="pattern-lab-primary-actions" style="margin-top:1rem">
+      <button type="button" class="btn btn-ghost" onclick="closePatternLibraryModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- NEW CARD MODAL -->
+
+</main>
+
+<!-- DOCUMENT PROCESSING MODAL -->
+<div id="doc-processing-modal" class="modal-overlay doc-processing-overlay" style="display:none" onclick="if(event.target===this)closeDocProcessingModal()" onkeydown="if(event.key==='Escape')closeDocProcessingModal()" role="dialog" aria-modal="true" aria-labelledby="modal-detail-title">
+  <div class="modal doc-processing-modal" onclick="event.stopPropagation()">
+    <div class="doc-processing-header">
+      <div style="display:flex;align-items:center;gap:0.75rem">
+        <span id="modal-detail-title" style="font-size:1.1rem;font-weight:700">Document Processing</span>
+        <span id="modal-detail-status" class="badge badge-partial" aria-live="polite">Processing</span>
+      </div>
+      <button type="button" class="modal-close" onclick="closeDocProcessingModal()" style="position:static;font-size:1.5rem" aria-label="Close document processing dialog">&times;</button>
+    </div>
+    <div class="doc-processing-body">
+      <div class="doc-processing-grid">
+        <div class="card">
+          <div class="card-title mb-1">Original</div>
+          <div id="modal-original-preview" class="markdown-body card-panel-scroll" role="region" aria-label="Original document preview"></div>
+        </div>
+        <div class="card">
+          <div class="card-title mb-1">Redacted <span class="badge badge-critical">PII Removed</span></div>
+          <div id="modal-redacted-preview" class="markdown-body card-panel-scroll" role="region" aria-label="Redacted document preview"></div>
+        </div>
+        <div class="card">
+          <div class="card-title mb-1">PII Detection</div>
+          <div id="modal-pii-summary" style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:0.5rem" aria-live="polite"></div>
+          <ul id="modal-pii-list" class="pii-list card-panel-scroll" aria-label="Detected PII items"></ul>
+        </div>
+      </div>
+    </div>
+    <div class="doc-processing-footer human-checkpoint" id="modal-review-footer" style="margin:0;border-radius:0 0 var(--radius) var(--radius)">
+      <div id="modal-review-prompt" class="checkpoint-desc" style="margin-bottom:0.75rem">Review the redacted text and PII list. Approve when redaction looks complete, or flag missed items.</div>
+      <div id="modal-approve-actions" class="btn-group" style="display:flex;gap:0.5rem;align-items:center;flex-wrap:wrap">
+        <button type="button" id="modal-btn-approve" class="btn btn-success" onclick="modalApproveDoc(event)" aria-label="Approve document as correctly redacted">&#10003; Looks Correct &mdash; Approve &amp; Save</button>
+        <button type="button" id="modal-btn-reject" class="btn btn-danger btn-sm" onclick="modalRejectDoc(event)" aria-label="Flag missed PII items">Missed Something</button>
+        <button type="button" id="modal-btn-copy" class="btn btn-outline btn-sm" style="display:none" onclick="pasteCopyRedacted()" aria-label="Copy redacted text to clipboard">&#128203; Copy Redacted Text</button>
+        <button type="button" class="btn btn-ghost btn-sm" onclick="closeDocProcessingModal()">Close</button>
+      </div>
+      <div id="modal-approve-success" class="doc-approval-success" style="display:none" role="status" aria-live="polite">
+        <div class="doc-approval-success-icon" aria-hidden="true">&#10003;</div>
+        <div class="doc-approval-success-body">
+          <div class="doc-approval-success-title">Document approved and saved</div>
+          <div id="modal-approve-success-detail" class="doc-approval-success-detail">This document is now in your library with Approved status.</div>
+          <div class="doc-approval-success-actions">
+            <button type="button" class="btn btn-success" onclick="closeDocProcessingModal()">Done &mdash; Back to library</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPLIANCE CARDS MODAL -->
+
+<div id="dms-toast-host" class="dms-toast-host" aria-live="polite" aria-atomic="true"></div>
+
+<!-- Script modules (order matters: app first, then view modules) -->
+<script src="js/app.js"></script>
+<script src="js/patterns.js"></script>
+<script src="js/pattern_library.js"></script>
+<script src="js/documents.js"></script>
+<script src="js/settings.js"></script>
+</body>
+</html>
