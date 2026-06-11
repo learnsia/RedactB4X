@@ -1,5 +1,11 @@
 // Saved pattern library — persist rules and apply selected ones per document
 
+function safeRegExp(pattern, flags) {
+  if (typeof pattern !== 'string') throw new TypeError('pattern must be a string');
+  if (pattern.length > 500) throw new Error('regex pattern too long');
+  return new RegExp(pattern, flags);
+}
+
 var patternLibraryCache = [];
 var patternPickerDocId = '';
 var patternPickerDocTitle = '';
@@ -90,7 +96,7 @@ function patternLibraryRunTest(body, kind, sample, resultEl) {
     return;
   }
   try {
-    var re = new RegExp(body, 'gi');
+    var re = safeRegExp(body, 'gi');
     var matches = sample.match(re);
     var count = matches ? matches.length : 0;
     resultEl.textContent = count + ' match' + (count === 1 ? '' : 'es') + ' found in text.';

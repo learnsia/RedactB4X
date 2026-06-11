@@ -222,7 +222,7 @@ func (s *Server) handleDashboard(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	w.Write([]byte(dashboard))
+	w.Write([]byte(dashboard)) //nolint:go.lang.security.audit.xss.no-direct-write-to-responsewriter // constant HTML, no user data
 }
 
 func (s *Server) handleGetStatus(w http.ResponseWriter, r *http.Request) {
@@ -991,7 +991,7 @@ func (s *Server) handleDownloadDocument(w http.ResponseWriter, r *http.Request) 
 		}
 	}
 
-	w.Write([]byte(data))
+	w.Write([]byte(data)) //nolint:go.lang.security.audit.xss.no-direct-write-to-responsewriter // content-type is non-HTML (markdown/plain/csv/json/zip)
 }
 
 func (s *Server) handleDownloadBatch(w http.ResponseWriter, r *http.Request) {
@@ -1085,7 +1085,7 @@ func (s *Server) handleDownloadBatch(w http.ResponseWriter, r *http.Request) {
 		}
 		w.Header().Set("Content-Type", contentType)
 		w.Header().Set("Content-Disposition", "attachment; filename=\""+sanitizeFilename(filename)+"\"")
-		w.Write([]byte(e.content))
+		w.Write([]byte(e.content)) //nolint:go.lang.security.audit.xss.no-direct-write-to-responsewriter // content-type is non-HTML (markdown/plain)
 		return
 	}
 
@@ -1114,7 +1114,7 @@ func (s *Server) handleDownloadBatch(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/zip")
 	w.Header().Set("Content-Disposition", "attachment; filename=\"documents.zip\"")
-	w.Write(buf.Bytes())
+	w.Write(buf.Bytes()) //nolint:go.lang.security.audit.xss.no-direct-write-to-responsewriter // binary zip content
 }
 
 func (s *Server) handleScanDirectory(w http.ResponseWriter, r *http.Request) {

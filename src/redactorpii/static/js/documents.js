@@ -1,5 +1,11 @@
 
 
+function safeRegExp(pattern, flags) {
+  if (typeof pattern !== 'string') throw new TypeError('pattern must be a string');
+  if (pattern.length > 500) throw new Error('regex pattern too long');
+  return new RegExp(pattern, flags);
+}
+
 // ═══════════ DOCUMENT UPLOAD ═══════════
 async function uploadFiles(files) {
   const cat = document.getElementById('upload-category').value.trim() || 'general';
@@ -1171,7 +1177,7 @@ function pasteApplyPattern(kind, value) {
   }).then(function(r) { return r.json(); }).then(function(result) {
     if (kind === 'regex') {
       try {
-        var re = new RegExp(value, 'gi');
+        var re = safeRegExp(value, 'gi');
         var m;
         while ((m = re.exec(originalText)) !== null) {
           result.items.push({ id: '[CUSTOM]', type: 'CUSTOM', typeLabel: 'Custom regex', original: m[0], redacted: '[REDACTED]', start: m.index, end: m.index + m[0].length, context: originalText.substring(Math.max(0, m.index - 20), Math.min(originalText.length, m.index + m[0].length + 20)) });
